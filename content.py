@@ -1,45 +1,44 @@
-from sqlalchemy import create_engine
+"""This part of the code links the CLI to the database"""
+
+from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 from database import Students, Classes, Log_start, User
 
+#initiate link to the database for operation
 engine = create_engine("sqlite:///myproject_database.db")
-
 Base = declarative_base()
-
 Base.metadata.bind = engine
-
 DBSession = sessionmaker(bind=engine)
-
 session = DBSession()
 
 
-class AttendanceRegister(object):
+class AttendanceRegister:
 	def __init__(self):
 		pass
 
 	def check_in(self, student_id, class_id):
 		pass
+
+	#Check_out method
 	def check_out(self):
 		student_id = int(input("Enter student Id: "))
 
 		in_session = bool(input("Is student in session: (True or False)?: "))
 		if in_session == True:
 			check_out_reason = str(input("Enter reason for checking out: "))
-			
 
-
-			session.add(Students(in_session=False))
+			#change value of in_session in students table to False
+			session.execute(update(Students).where(Students.id==student_id).values({"in_session":False}))
 			session.commit()
-
-
 
 			print("Student checked_out successfully")
 
 		else:
 			print("Can not check out student")
 
+	#method for initiating log_start
 	def log_start(self):
 		clas_id = int(input("Enter the class id: "))
 		class_in =Log_start(class_id=clas_id)
@@ -50,19 +49,21 @@ class AttendanceRegister(object):
 		session.commit()
 
 
+	#method for log end
 	def log_end(self):
 		clas_id = int(input("Enter class id: "))
 		class_out = Log_start(class_id=clas_id)
 
 		end= eval(input("Enter end time"))
 		ending = Log_end(class_id=clas_id, end_time=end)
+
+	#Method to add student and automatically generate their id
 	def student_add(self):
-		newStudent = input("Enter both first and surname separate with space: ")
+		newStudent = input("Enter both first and surname separate with space: ")     #prompt user for both names separated by a space or one name
 		new_student = Students(student_name=newStudent)
 
 		in_class = eval(input("Is student in class: (True or False): "))
-		student_session = Students(student_name=newStudent, in_session=in_class)
-			
+		student_session = Students(student_name=newStudent, in_session=in_class)			
 
 		if in_class == True:
 			classId = int(input("Enter id of class in: "))
@@ -75,11 +76,14 @@ class AttendanceRegister(object):
 		session.commit()
 
 
+	#method to delete particular student based on their id
 	def student_remove(student_id):
 		student_id = int(input("Enter student id in question: "))
 		session.query(Students).filter_by(id=student_id).delete()
-		session.commit()	
-		
+		session.commit()
+
+
+	#method to add new class and automatically generate an id		
 	def class_add(self):
 		newClass = input("Enter The Name of Class: ")
 		new_class = Classes(class_name=newClass)
