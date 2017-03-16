@@ -25,12 +25,13 @@ class AttendanceRegister:
 	def check_out(self):
 		student_id = int(input("Enter student Id: "))
 
-		in_session = bool(input("Is student in session: (True or False)?: "))
+		in_session = eval(input("Is student in session: (True or False)?: "))
+
 		if in_session == True:
 			check_out_reason = str(input("Enter reason for checking out: "))
 
 			#change value of in_session in students table to False
-			session.execute(update(Students).where(Students.id==student_id).values({"in_session":False}))
+			session.execute(update(Students).where(Students.id==student_id).values({"in_session":False, "class_id":0}))
 			session.commit()
 
 			print("Student checked_out successfully")
@@ -47,7 +48,6 @@ class AttendanceRegister:
 		starting = Log_start(class_id=clas_id, start_time=start)
 		session.add(starting)
 		session.commit()
-
 
 	#method for log end
 	def log_end(self):
@@ -75,7 +75,6 @@ class AttendanceRegister:
 		session.add(class_in)
 		session.commit()
 
-
 	#method to delete particular student based on their id
 	def student_remove(student_id):
 		student_id = int(input("Enter student id in question: "))
@@ -87,7 +86,7 @@ class AttendanceRegister:
 	def class_add(self):
 		newClass = input("Enter The Name of Class: ")
 		new_class = Classes(class_name=newClass)
-		
+
 		class_on = eval(input("is the class in session(True or False): "))
 		class_session = Classes(class_name=newClass, session_on=class_on)
 		session.add(class_session)
@@ -101,8 +100,6 @@ class AttendanceRegister:
 		#total = Classes(class_name=newClass, session_on=class_on, total_students=number_of_students)
 		#session.add(total)
 		#session.commit()
-
-
 
 	def class_remove(self):
 		class_id = int(input("Enter id in question: "))
@@ -122,5 +119,3 @@ class AttendanceRegister:
 		for row in rows:
 			students.append((row.student_name, row.id, row.in_session, row.class_id))
 		return students
-
-	
