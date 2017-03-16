@@ -1,5 +1,5 @@
 """This part of the code links the CLI to the database"""
-
+from tabulate import tabulate
 from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -124,11 +124,11 @@ class attendance_register:
 		rows = session.query(Classes).all()
 		for row in rows:
 			classes.append((row.class_name, row.id, row.session_on))
-		return classes
+		print(tabulate(classes, headers=["class_name", "id", "session_on"], tablefmt="orgtbl"))
 
 	def student_list(self):
 		students = []
 		rows = session.query(Students).all()
 		for row in rows:
 			students.append((row.student_name, row.id, row.in_session, row.class_id))
-		return students
+		print(tabulate(students, headers=["student_name", "id", "in_session", "class_id"], tablefmt="orgtbl"))
