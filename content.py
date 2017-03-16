@@ -14,21 +14,43 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-class AttendanceRegister:
+class attendance_register:
 	def __init__(self):
 		pass
 
-	def check_in(self, student_id, class_id):
-		pass
+	#check_in method
+	def check_in(self):
+		#Check if student in database first
+		status = eval(input("Is student registered(True or False)? "))
+
+		if status == False:
+			#Take user to Add_student method with a prompt message
+			print("Add Student to register and check in from Add panel")
+
+			attendance_register.student_add(self) 		#call the student_add function
+			print("Student registered and checked in")
+
+		else:
+			status = eval(input("Is student In another class(True or False)? "))
+
+			if status == False:
+				student_id = int(input("Enter student Id: "))
+				class_id = int(input("Enter class Id in mind: "))
+				session.execute(update(Students).where(Students.id==student_id).values({"in_session":True, "class_id":class_id}))
+				session.commit()
+				print("Student Successfully assigned class")
+
+			else:
+				print("First check out student in current class to check in to another")
 
 	#Check_out method
 	def check_out(self):
-		student_id = int(input("Enter student Id: "))
+		student_id = int(input("Enter student Id: ")) #prompt for student Id
 
-		in_session = eval(input("Is student in session: (True or False)?: "))
+		in_session = eval(input("Is student in session: (True or False)?: ")) #check if student is in session
 
 		if in_session == True:
-			check_out_reason = str(input("Enter reason for checking out: "))
+			check_out_reason = str(input("Enter reason for checking out: "))  #Reason for check out
 
 			#change value of in_session in students table to False
 			session.execute(update(Students).where(Students.id==student_id).values({"in_session":False, "class_id":0}))
@@ -59,24 +81,24 @@ class AttendanceRegister:
 
 	#Method to add student and automatically generate their id
 	def student_add(self):
-		newStudent = input("Enter both first and surname separate with space: ")     #prompt user for both names separated by a space or one name
-		new_student = Students(student_name=newStudent)
+		new = input("Enter both first and surname separate with space: ")     #prompt user for both names separated by a space or one name
+		new_student = Students(student_name=new)
 
 		in_class = eval(input("Is student in class: (True or False): "))
 		student_session = Students(student_name=newStudent, in_session=in_class)			
 
 		if in_class == True:
-			classId = int(input("Enter id of class in: "))
+			class_id = int(input("Enter id of class in: "))
 			
 		else:
-			classId = 0
+			class_id = 0
 
-		class_in = Students(student_name=newStudent, in_session=in_class, class_id=classId)
+		class_in = Students(student_name=new, in_session=in_class, class_id=clas_id)
 		session.add(class_in)
 		session.commit()
 
 	#method to delete particular student based on their id
-	def student_remove(student_id):
+	def student_remove(self):
 		student_id = int(input("Enter student id in question: "))
 		session.query(Students).filter_by(id=student_id).delete()
 		session.commit()
@@ -84,22 +106,13 @@ class AttendanceRegister:
 
 	#method to add new class and automatically generate an id		
 	def class_add(self):
-		newClass = input("Enter The Name of Class: ")
-		new_class = Classes(class_name=newClass)
+		new = input("Enter The Name of Class: ")
+		new_class = Classes(class_name=new)
 
 		class_on = eval(input("is the class in session(True or False): "))
-		class_session = Classes(class_name=newClass, session_on=class_on)
+		class_session = Classes(class_name=new, session_on=class_on)
 		session.add(class_session)
 		session.commit()
-
-		#if class_on == True:
-		#	number_of_students = int(input("Enter No. of Students currently in class: "))
-		#else:
-		#	number_of_students = 0
-
-		#total = Classes(class_name=newClass, session_on=class_on, total_students=number_of_students)
-		#session.add(total)
-		#session.commit()
 
 	def class_remove(self):
 		class_id = int(input("Enter id in question: "))
