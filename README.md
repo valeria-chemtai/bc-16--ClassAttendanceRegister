@@ -35,7 +35,7 @@ The App has the following functionalities:
 
 4.Inside virtual environment install the requirements in the requirements folder.
 
-5.Open terminal and run simpleCli
+5.Open terminal and run simpleCli.py
 
 ##Working
 Follow the instructions as directed
