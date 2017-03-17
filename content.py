@@ -3,7 +3,6 @@ from tabulate import tabulate
 from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
 from database import Students, Classes, Log, User
 
 #initiate link to the database for operation
@@ -12,7 +11,6 @@ Base = declarative_base()
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-
 
 class attendance_register:
 	def __init__(self):
@@ -99,7 +97,7 @@ class attendance_register:
 		new_student = Students(student_name=new)
 
 		in_class = eval(input("Is student in class: (True or False): "))
-		student_session = Students(student_name=newStudent, in_session=in_class)			
+		student_session = Students(student_name=new, in_session=in_class)			
 
 		if in_class == True:
 			class_id = int(input("Enter id of class in:  "))
@@ -107,7 +105,7 @@ class attendance_register:
 		else:
 			class_id = 0
 
-		class_in = Students(student_name=new, in_session=in_class, class_id=clas_id)
+		class_in = Students(student_name=new, in_session=in_class, class_id=class_id)
 		session.add(class_in)
 		session.commit()
 
