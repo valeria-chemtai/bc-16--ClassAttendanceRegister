@@ -1,13 +1,14 @@
-#Requirements
 
-appdirs==1.4.3
+# Requirements
 
-packaging==16.8
+* appdirs==1.4.3
 
-pyparsing==2.2.0
+* packaging==16.8
 
-six==1.10.0
+* pyparsing==2.2.0
 
-SQLAlchemy==1.1.6
+*six==1.10.0
 
-tabulate==0.7.7
+* SQLAlchemy==1.1.6
+
+*tabulate==0.7.7
