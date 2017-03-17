@@ -1,4 +1,4 @@
-#class Attendanc Register
+#class Attendance Register
 
 The class attendance register app is used to check-in students when they come into class.
 
@@ -26,6 +26,7 @@ The App has the following functionalities:
 
 
 ##Installation
+
 1.Clone the repository from github
 
 2.Open Command Line Interface
