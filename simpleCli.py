@@ -11,26 +11,28 @@ def main():
 		register = attendance_register()
 
 		if option == 1:
-			register.check_in()
-			
+			register.check_in() #call function check_in from attendance_register
+			print(register.student_list()) 	#Added for demonstration purposes
 
 		elif option == 2:
-			register.check_out()
+			register.check_out()	#call function check_out from attendance_register
+			print(register.student_list()) 	#Added for demonstration purposes
 
 		elif option == 3:
-			register.log_start()
+			register.log_start()	#call function log_start from attendance_register
 			print("Class session started")
 
 		elif option == 4:
-			register.log_start()
+			register.log_end()	#call function log_end from attendance_register
 			print("class Session ended")
 
 		elif option == 5:
 			register.student_add()
-			print(register.student_list())
+			print(register.student_list()) 	#Added for demonstration purposes, this line of code can be omitted
 
 		elif option == 6:
 			register.student_remove()
+			print(register.student_list())  #Added for demonstration purposes
 
 		elif option == 7:
 			register.class_add()
@@ -46,7 +48,7 @@ def main():
 			print(register.student_list())
 
 		elif option == 0:
-			break
+			break				#system exit
 
 		else:
 			print("Enter a Valid option")
