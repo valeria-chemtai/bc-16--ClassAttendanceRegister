@@ -1,4 +1,4 @@
-#Class Attendance Register
+#class_attendance_register
 
 The class attendance register app is used to check-in students when they come into class.
 
